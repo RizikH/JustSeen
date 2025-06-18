@@ -1,7 +1,21 @@
+.castSection{
+    scroll-behavior: smooth;
+    scrollbar-face-color: #2C2C2C;
+}
+
 @media screen and (max-width: 768px) {
+    .headerContainer{
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+    }
     .moviePoster {
-        width: 100%;
+        width: 90%;
         height: auto;
+    }
+    .movieContent {
+        width: 90%;
     }
 
 }

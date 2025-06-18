@@ -2,16 +2,19 @@
 import React, { useState, useEffect } from 'react';
 import { apiFetch } from '@/components/helpers/api';
 import { MoviesResponse, Movie } from '@/types/types';
-import styles from '@/styles/Home/home.module.scss';
 import { MovieCard } from '@/components/MovieCard/MovieCard';
 
-export default function TopRated() {
+interface SimilarProps {
+    movieId: number;
+}
+
+export default function Similar({ movieId }: SimilarProps) {
     const [movies, setMovies] = useState<Movie[]>([]);
     const [error, setError] = useState<Error | null>(null);
     const movieListRef = React.useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const cacheKey = 'toprated-movies';
+        const cacheKey = `similar-movies-${movieId}`;
         const cacheTTL = 60 * 60 * 1000; // 1 hour
         const now = Date.now();
 
@@ -28,7 +31,7 @@ export default function TopRated() {
             try {
                 const totalPages = 3;
                 const pageRequests = Array.from({ length: totalPages }, (_, i) =>
-                    apiFetch<MoviesResponse>(`/movie/top_rated?page=${i + 1}`)
+                    apiFetch<MoviesResponse>(`/movie/${movieId}/similar?language=en-US&page=${i + 1}`)
                 );
 
                 const responses = await Promise.all(pageRequests);
@@ -57,13 +60,13 @@ export default function TopRated() {
     const handleRightClick = () => {
         if (!movieListRef.current) return;
         const currentIndex = parseInt(getComputedStyle(movieListRef.current).getPropertyValue('--slider-index'));
-        const maxIndex = movies ? Math.floor(movies.length / 6) - 1 : 0;
+        const maxIndex = movies ? Math.floor(movies.length / 6) : 0;
         const newIndex = currentIndex < maxIndex ? currentIndex + 1 : maxIndex;
         movieListRef.current.style.setProperty('--slider-index', newIndex.toString());
     }
 
     return (
-        <section id='toprated-movies' className='listSection'>
+        <section id={`${movieId}-movies`} className='listSection' style={{ overflow: 'hidden' }}>
             <button className="handle left-handle" onClick={handleLeftClick}>
                 <div className="text text-5xl">&#8249;</div>
             </button>

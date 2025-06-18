@@ -1,8 +1,8 @@
-import TrendingMovies from './Trending/TrendingMovies';
-import TopRated from './TopRated/TopRated';
-import Upcoming from './Upcoming/Upcoming';
+import TrendingMovies from '@/components/Trending/TrendingMovies';
+import TopRated from '@/components/TopRated/TopRated';
+import Upcoming from '@/components/Upcoming/Upcoming'
 import Genres from '@/components/Genres/Genres';
-import styles from '@/styles/Home/home.module.scss';
+import styles from '@/styles/Home/home.module.css';
 
 
 const GenresList = [
@@ -46,11 +46,7 @@ export default function Home() {
             {GenresList.map((genre) => (
                 <div key={genre.id} className="w-full flex flex-col items-start justify-center">
                     <h3>{genre.name} Movies</h3>
-                    <div className="w-full flex overflow-x-auto">
-                        <div className={styles.movieList}>
-                            <Genres genreId={genre.id} genreName={genre.name}/>
-                        </div>
-                    </div>
+                    <Genres genreId={genre.id} genreName={genre.name} />
                 </div>
             ))}
 
