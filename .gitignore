@@ -1,0 +1,26 @@
+# Gradle files
+backend/build/
+backend/.gradle/
+backend/gradle/
+
+# IDE junk
+backend/.idea/
+backend/.classpath
+backend/.project
+backend/.settings
+
+# Node / Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/.idea/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Docker volumes
+postgres_data/
+
+# Environment files
+backend/.env
+frontend/.env.local
