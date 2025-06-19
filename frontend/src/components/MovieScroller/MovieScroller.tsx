@@ -25,7 +25,7 @@ export const MovieScroller: React.FC<MovieScrollerProps> = ({ movies }) => {
     const handleRightClick = () => {
         if (!movieListRef.current) return;
         const currentIndex = parseInt(getComputedStyle(movieListRef.current).getPropertyValue('--slider-index'));
-        const maxIndex = movies ? Math.floor(movies.length / 6) - 1 : 0;
+        const maxIndex = movies ? Math.floor(movies.length / 6) - 2 : 0;
         const newIndex = currentIndex < maxIndex ? currentIndex + 1 : maxIndex;
         movieListRef.current.style.setProperty('--slider-index', newIndex.toString());
     };

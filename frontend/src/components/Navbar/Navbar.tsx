@@ -10,7 +10,7 @@ export default function Navbar() {
         <nav className="sticky top-0 left-0 w-full h-[4rem] bg-[#0C0C0C] text-white z-30 px-8 md:px-[4.5rem]">
             <div className="flex items-center justify-between h-full">
                 <div className="flex items-center justify-between w-full">
-                    <Link href={'/'} className="text-xl">NextMovie</Link>
+                    <Link href={'/'} className="text-xl">JustSeen</Link>
                     <ul className="flex items-end-safe gap-6 text-xl">
                         {!isMobile ? (
                             <>

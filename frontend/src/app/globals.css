@@ -7,6 +7,7 @@
   --text-secondary: #444444;
   --button-bg: #303030;
   --slider-padding: 4rem;
+  --page-height: calc(100vh - 4rem);
 }
 
 * {
@@ -58,7 +59,7 @@ body::-webkit-scrollbar {
   gap: 1rem;
   --slider-index: 0;
   width: max-content; /* 👈 this is important */
-  transform: translateX(calc(var(--slider-index) * -10%));
+  transform: translateX(calc(var(--slider-index) * -11.5%));
   transition: transform 250ms ease-in-out;
   scroll-snap-type: x mandatory;
   padding-left: 4.5rem;
