@@ -7,6 +7,8 @@ import { Suspense } from "react";
 import styles from "@/styles/moviePage/moviePage.module.css";
 import Similar from "@/components/Similar/Similar";
 import Image from "next/image";
+import { Tagline } from "@/data/db";
+import AddToListButton from "@/components/AddToList/AddToListButton";
 
 export default async function MoviePage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
@@ -27,6 +29,7 @@ export default async function MoviePage({ params }: { params: Promise<{ id: stri
             `/movie/${movieId}/credits?language=en-US`
         );
         const cast = castRes.cast.slice(0, 15);
+
 
         return (
             <>
@@ -101,6 +104,11 @@ export default async function MoviePage({ params }: { params: Promise<{ id: stri
                                                 </li>
                                             ))}
                                         </ul>
+                                    </div>
+
+                                    <div>
+                                        <h2>{Tagline.tagline}</h2>
+                                        <AddToListButton movie={movieRes} />
                                     </div>
                                 </div>
                             </div>

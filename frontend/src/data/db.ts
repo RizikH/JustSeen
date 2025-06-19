@@ -19,6 +19,6 @@ export const GenresList = [
     { id: 37, name: 'Western' }
 ];
 
-export const random ={ 
-    tagline: "Log it. Rate it. Brag about it.",
-}
+export const Tagline = {
+    tagline: "Seen it? Rate it and brag about it!"
+};
