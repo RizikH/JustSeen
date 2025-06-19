@@ -1,16 +1,15 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { apiFetch } from '@/components/helpers/api';
 import { MoviesResponse, Movie } from '@/types/types';
-import { MovieCard } from '@/components/MovieCard/MovieCard';
+import { MovieScroller } from '@/components/MovieScroller/MovieScroller';
 
 export default function Trending() {
     const [movies, setMovies] = useState<Movie[]>([]);
-    const movieListRef = React.useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const cacheKey = 'trending-movies';
-        const cacheTTL = 60 * 60 * 1000; // 1 hour in milliseconds
+        const cacheTTL = 60 * 60 * 1000;
         const now = Date.now();
 
         const cachedData = sessionStorage.getItem(cacheKey);
@@ -33,10 +32,7 @@ export default function Trending() {
                 const allMovies = responses.flatMap(res => res.results);
 
                 setMovies(allMovies);
-                sessionStorage.setItem(
-                    cacheKey,
-                    JSON.stringify({ data: allMovies, timestamp: now })
-                );
+                sessionStorage.setItem(cacheKey, JSON.stringify({ data: allMovies, timestamp: now }));
             } catch (err) {
                 console.error('Error fetching trending movies:', err);
                 setMovies([]);
@@ -46,37 +42,5 @@ export default function Trending() {
         fetchMovies();
     }, []);
 
-    const handleLeftClick = () => {
-        if (!movieListRef.current) return;
-        const currentIndex = parseInt(getComputedStyle(movieListRef.current).getPropertyValue('--slider-index'));
-        const newIndex = currentIndex > 0 ? currentIndex - 1 : 0;
-        movieListRef.current.style.setProperty('--slider-index', newIndex.toString());
-    }
-
-    const handleRightClick = () => {
-        if (!movieListRef.current) return;
-        const currentIndex = parseInt(getComputedStyle(movieListRef.current).getPropertyValue('--slider-index'));
-        const maxIndex = movies ? Math.floor(movies.length / 6) - 1 : 0;
-        const newIndex = currentIndex < maxIndex ? currentIndex + 1 : maxIndex;
-        movieListRef.current.style.setProperty('--slider-index', newIndex.toString());
-    }
-
-    return (
-        <section className="listSection">
-            <div className="scrollWrapper">
-                <button className="handle left-handle" onClick={handleLeftClick}>
-                    <div className="text text-5xl">&#8249;</div>
-                </button>
-                <div className="movieList" ref={movieListRef}>
-                    {movies.map((movie) => (
-                        <MovieCard key={movie.id} movie={movie} />
-                    ))}
-                </div>
-                <button className="handle right-handle" onClick={handleRightClick}>
-                    <div className="text text-5xl">&#8250;</div>
-                </button>
-            </div>
-        </section>
-
-    );
+    return <MovieScroller movies={movies} />;
 }

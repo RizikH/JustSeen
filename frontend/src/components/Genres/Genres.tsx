@@ -2,8 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { apiFetch } from '@/components/helpers/api';
 import { MoviesResponse, Movie } from '@/types/types';
-import { MovieCard } from '@/components/MovieCard/MovieCard';
-
+import { MovieScroller } from '@/components/MovieScroller/MovieScroller';
 
 interface GenresProps {
     genreId: number;
@@ -12,7 +11,6 @@ interface GenresProps {
 
 export default function Genres(GenresProps: GenresProps) {
     const [movies, setMovies] = useState<Movie[]>([]);
-    const movieListRef = React.useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const cacheKey = `genre-${GenresProps.genreId}`;
@@ -54,39 +52,6 @@ export default function Genres(GenresProps: GenresProps) {
         fetchMovies();
     }, [GenresProps.genreId]);
 
-    const handleLeftClick = () => {
-        if (!movieListRef.current) return;
-        const currentIndex = parseInt(getComputedStyle(movieListRef.current).getPropertyValue('--slider-index'));
-        const newIndex = currentIndex > 0 ? currentIndex - 1 : 0;
-        movieListRef.current.style.setProperty('--slider-index', newIndex.toString());
-    }
-
-    const handleRightClick = () => {
-        if (!movieListRef.current) return;
-        const currentIndex = parseInt(getComputedStyle(movieListRef.current).getPropertyValue('--slider-index'));
-        const maxIndex = movies ? Math.floor(movies.length / 6) - 1 : 0;
-        const newIndex = currentIndex < maxIndex ? currentIndex + 1 : maxIndex;
-        movieListRef.current.style.setProperty('--slider-index', newIndex.toString());
-    }
-
-    return (
-        <section id={`${GenresProps.genreName.toLowerCase()}-movies`} className='listSection'>
-            <button className="handle left-handle" onClick={handleLeftClick}>
-                <div className="text text-5xl">&#8249;</div>
-            </button>
-            <div className='movieList' ref={movieListRef}>
-                {movies && movies.length > 0 ? (
-                    movies.map((movie: Movie) => (
-                        <MovieCard key={movie.id} movie={movie} />
-                    ))
-                ) : (
-                    <p>No movies available.</p>
-                )}
-            </div>
-            <button className="handle right-handle" onClick={handleRightClick}>
-                <div className="text text-5xl">&#8250;</div>
-            </button>
-        </section>
-    );
+   return <MovieScroller movies={movies} />
 }
 

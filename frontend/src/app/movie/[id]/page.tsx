@@ -45,7 +45,7 @@ export default async function MoviePage({ params }: { params: Promise<{ id: stri
                                 backgroundPosition: "center",
                             }}
                         >
-                            <div className={`flex flex-row items-start justify-between w-full px-28 py-8 gap-6 ${styles.headerContainer}`}
+                            <div className={`flex flex-row items-start justify-between w-full px-20 py-8 gap-6 ${styles.headerContainer}`}
                                 style={
                                     {
                                         backgroundColor: "rgba(0, 0, 0, 0.7)",
@@ -60,7 +60,7 @@ export default async function MoviePage({ params }: { params: Promise<{ id: stri
                                             alt={movieRes.title}
                                             width={500}
                                             height={750}
-                                            className="w-full h-full object-cover rounded-lg shadow-md"
+                                            className="w-full h-full object-cover rounded-lg shadow-md mt-8 md:mt-0"
                                             priority={false}
                                         />
                                     ) : (
@@ -108,7 +108,7 @@ export default async function MoviePage({ params }: { params: Promise<{ id: stri
                     </div>
 
                     {/* Cast Section */}
-                    <div className={`w-full flex flex-col items-start justify-start gap-6 px-8 lg:px-28 py-4 ${styles.castContainer}`}>
+                    <div className={`w-full flex flex-col items-start justify-start gap-6 px-8 lg:px-20 py-4 ${styles.castContainer}`}>
                         <h2>Cast</h2>
                         <div className={`flex flex-col items-start justify-start w-full max-h-fit text-xl overflow-x-scroll  ${styles.castSection}`}>
                             <div className="flex flex-nowrap gap-8 my-4 min-w-max">
@@ -139,10 +139,10 @@ export default async function MoviePage({ params }: { params: Promise<{ id: stri
 
                         </div>
                     </div>
-                    <div className={`w-full flex flex-col items-start justify-start gap-6 px-8 lg:px-28 py-4 ${styles.castContainer}`}>
+                    <div className={`w-full flex flex-col items-start justify-start gap-6 px-8 lg:px-20 py-4 ${styles.castContainer}`}>
                         <h2>Similar Movies</h2>
                         <div className={`flex flex-col items-start justify-start w-full max-h-fit text-xl overflow-x-scroll  ${styles.castSection}`}>
-                              <div className="flex flex-nowrap gap-8 my-4 min-w-max">
+                            <div className="flex flex-nowrap gap-8 my-4 min-w-max">
                                 <Similar movieId={movieId} />
                             </div>
                         </div>

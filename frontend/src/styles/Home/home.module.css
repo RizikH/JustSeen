@@ -10,7 +10,14 @@
 }
 
 .homeContainer h3 {
-    padding-left: 4rem;
+    padding-left: 4.5rem;
     margin-bottom: 1rem;
     font-size: 1.5rem;
+}
+
+@media screen and (max-width: 768px) {
+    .homeContainer h3 {
+        padding-left: 2rem;
+    }
+    
 }
