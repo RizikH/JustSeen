@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense } from "react";
 import LoginForm from "@/components/Auth/Login";
 import { useAuth } from "@/components/hooks/useAuth";
 
@@ -29,9 +29,11 @@ const LoginPage: React.FC = () => {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-[var(--page-height)] w-screen">
-      <LoginForm  />
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <div className="flex items-center justify-center min-h-[var(--page-height)] w-screen">
+        <LoginForm />
+      </div>
+    </Suspense>
   );
 };
 

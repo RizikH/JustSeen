@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useEffect } from "react";
-import Register from "@/components/Auth/Register";
+import React, { useEffect, Suspense } from "react";
+import RegisterForm from "@/components/Auth/Register";
 import { useAuth } from "@/components/hooks/useAuth";
 
-const LoginPage: React.FC = () => {
+const Register: React.FC = () => {
     const { isAuthenticated } = useAuth();
 
     useEffect(() => {
@@ -29,10 +29,12 @@ const LoginPage: React.FC = () => {
     }
 
     return (
-        <div className="flex items-center justify-center min-h-[var(--page-height)] w-screen">
-            <Register />
-        </div>
+        <Suspense fallback={<div>Loading...</div>}>
+            <div className="flex items-center justify-center min-h-[var(--page-height)] w-screen">
+                <RegisterForm />
+            </div>
+        </Suspense>
     );
 };
 
-export default LoginPage;
+export default Register;

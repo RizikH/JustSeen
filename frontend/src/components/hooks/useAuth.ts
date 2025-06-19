@@ -27,7 +27,7 @@ export function useAuth() {
           setUser(null); // Not logged in
         }
       } catch (err) {
-        setError("Failed to load user");
+        setError("Failed to load user: " + err);
         setUser(null);
       } finally {
         setLoading(false);
