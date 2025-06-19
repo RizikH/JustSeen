@@ -38,7 +38,7 @@ const LoginForm: React.FC = () => {
 
   return (
     <div className="min-h-(--page-height) w-screen flex items-center justify-center bg-black text-white">
-      <Card className="p-0 w-1/4 shadow-none border-none bg-transparent">
+      <Card className="p-0 w-full md:w-1/2 lg:w-1/3 shadow-none border-none bg-transparent px-8 md:px-0">
         <MagicCard gradientColor="#262626" className="p-0 dark bg-[#111] rounded-xl">
           <CardHeader className="border-b border-[#2a2a2a] p-4 pb-2">
             <CardTitle className="text-white">Login</CardTitle>

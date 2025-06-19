@@ -22,6 +22,11 @@ const RegisterForm: React.FC = () => {
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        if (!/^[a-zA-Z0-9]+$/.test(username)) {
+            setStatus("❌ Username must contain only letters and numbers (no spaces or special characters).");
+            return;
+        }
+
         const res = await fetch("http://localhost:8080/api/auth/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -39,12 +44,12 @@ const RegisterForm: React.FC = () => {
 
     return (
         <div className="min-h-(--page-height) w-screen flex items-center justify-center bg-black text-white">
-            <Card className="p-0 w-1/4 shadow-none border-none bg-transparent">
+            <Card className="p-0 w-full md:w-1/2 lg:w-1/3 shadow-none border-none bg-transparent px-8 md:px-0">
                 <MagicCard gradientColor="#262626" className="p-0 dark bg-[#111] rounded-xl">
                     <CardHeader className="border-b border-[#2a2a2a] p-4 pb-2">
-                        <CardTitle className="text-white">Login</CardTitle>
+                        <CardTitle className="text-white">Register</CardTitle>
                         <CardDescription className="text-gray-400">
-                            Enter your credentials to access your account
+                            Create a new account to get started
                         </CardDescription>
                     </CardHeader>
                     <form onSubmit={handleRegister}>
@@ -59,6 +64,7 @@ const RegisterForm: React.FC = () => {
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         className="bg-[#1a1a1a] text-white border-[#333]"
+                                        required
                                     />
                                 </div>
                                 <div className="grid gap-2">
@@ -66,9 +72,11 @@ const RegisterForm: React.FC = () => {
                                     <Input
                                         id="username"
                                         type="text"
+                                        placeholder="JohnDoe"
                                         value={username}
                                         onChange={(e) => setUsername(e.target.value)}
                                         className="bg-[#1a1a1a] text-white border-[#333]"
+                                        required
                                     />
                                 </div>
                                 <div className="grid gap-2">
@@ -77,8 +85,15 @@ const RegisterForm: React.FC = () => {
                                         id="password"
                                         type="password"
                                         value={password}
+                                        placeholder="••••••••"
                                         onChange={(e) => setPassword(e.target.value)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === " ") {
+                                                e.preventDefault();
+                                            }
+                                        }}
                                         className="bg-[#1a1a1a] text-white border-[#333]"
+                                        required
                                     />
                                 </div>
                             </div>
