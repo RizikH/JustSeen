@@ -29,9 +29,19 @@ body::-webkit-scrollbar {
 }
 
 .listSection {
+  margin-bottom: 2rem;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   overflow: visible;
+  position: relative;
+}
+
+.scrollWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 100vw;
+  overflow: hidden;
 }
 
 .listSection h2 {
@@ -44,17 +54,15 @@ body::-webkit-scrollbar {
 }
 
 .movieList {
-  --slider-index: 0;
   display: flex;
-  width: calc(100% - (var(--slider-padding) * 2));
-  transform: translateX(calc(var(--slider-index) * -100%));
-  transition: transform 250ms ease-in-out;
-  overflow: visible;
   gap: 1rem;
-
-  scrollbar-width: none;
-  /* Firefox */
+  --slider-index: 0;
+  width: max-content; /* 👈 this is important */
+  transform: translateX(calc(var(--slider-index) * -10%));
+  transition: transform 250ms ease-in-out;
+  scroll-snap-type: x mandatory;
 }
+
 
 .movieList::-webkit-scrollbar {
   display: none;
@@ -63,14 +71,15 @@ body::-webkit-scrollbar {
 
 .movieCard {
   position: relative;
-  flex: 0 0 15.6%;
-  aspect-ratio: 2 / 3;
+  width: 180px;
+  height: 270px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   background-color: #111;
   scroll-snap-align: start;
   transition: transform 0.3s ease;
   cursor: pointer;
   overflow: hidden;
+  border-radius: 10px;
 }
 
 .movieCard:hover {
@@ -86,25 +95,24 @@ body::-webkit-scrollbar {
 }
 
 .handle {
-  border: none;
-  flex-grow: 0;
+  position: absolute;
+  top: 0;
+  bottom: 0;
   width: var(--slider-padding);
+  z-index: 10;
   background-color: rgba(0, 0, 0, 0.3);
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
+  cursor: pointer;
 }
 
 .left-handle {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+  left: 0;
 }
 
 .right-handle {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+  right: 0;
 }
 
 .handle:hover {
@@ -114,4 +122,18 @@ body::-webkit-scrollbar {
 .handle:hover .text {
   transform: scale(1.3);
   transition: transform 0.2s ease;
+}
+
+@media screen and (max-width: 768px) {
+  .movieCard {
+    width: 120px;
+    height: 180px;
+  }
+  
+}
+@media screen and (max-width: 480px) {
+  .movieCard {
+    width: 100px;
+    height: 160px;
+  }
 }

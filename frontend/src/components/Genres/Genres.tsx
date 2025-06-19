@@ -4,6 +4,7 @@ import { apiFetch } from '@/components/helpers/api';
 import { MoviesResponse, Movie } from '@/types/types';
 import { MovieCard } from '@/components/MovieCard/MovieCard';
 
+
 interface GenresProps {
     genreId: number;
     genreName: string;
@@ -11,16 +12,20 @@ interface GenresProps {
 
 export default function Genres(GenresProps: GenresProps) {
     const [movies, setMovies] = useState<Movie[]>([]);
-    const [error, setError] = useState<Error | null>(null);
     const movieListRef = React.useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const cacheKey = `genre-${GenresProps.genreId}`;
-        const cached = sessionStorage.getItem(cacheKey);
+        const cacheTTL = 60 * 60 * 1000; // 1 hour in milliseconds
+        const now = Date.now();
 
-        if (cached) {
-            setMovies(JSON.parse(cached));
-            return;
+        const cachedData = sessionStorage.getItem(cacheKey);
+        if (cachedData) {
+            const { data, timestamp } = JSON.parse(cachedData);
+            if (now - timestamp < cacheTTL) {
+                setMovies(data);
+                return;
+            }
         }
 
         const fetchMovies = async () => {
@@ -34,19 +39,20 @@ export default function Genres(GenresProps: GenresProps) {
 
                 const responses = await Promise.all(pageRequests);
                 const allMovies = responses.flatMap(res => res.results);
-                const uniqueMovies = Array.from(new Map(allMovies.map(m => [m.id, m])).values());
-                const shuffledMovies = uniqueMovies.sort(() => 0.5 - Math.random());
 
-                sessionStorage.setItem(cacheKey, JSON.stringify(shuffledMovies));
-                setMovies(shuffledMovies);
+                setMovies(allMovies);
+                sessionStorage.setItem(
+                    cacheKey,
+                    JSON.stringify({ data: allMovies, timestamp: now })
+                );
             } catch (err) {
-                setError(err as Error);
+                console.error('Error fetching movies:', err);
+                setMovies([]);
             }
         };
 
         fetchMovies();
     }, [GenresProps.genreId]);
-
 
     const handleLeftClick = () => {
         if (!movieListRef.current) return;
@@ -71,9 +77,8 @@ export default function Genres(GenresProps: GenresProps) {
             <div className='movieList' ref={movieListRef}>
                 {movies && movies.length > 0 ? (
                     movies.map((movie: Movie) => (
-                        <MovieCard key={`${GenresProps.genreId}-${movie.id}`} movie={movie} />
+                        <MovieCard key={movie.id} movie={movie} />
                     ))
-
                 ) : (
                     <p>No movies available.</p>
                 )}
@@ -84,3 +89,4 @@ export default function Genres(GenresProps: GenresProps) {
         </section>
     );
 }
+

@@ -6,7 +6,6 @@ import { MovieCard } from '@/components/MovieCard/MovieCard';
 
 export default function TopRated() {
     const [movies, setMovies] = useState<Movie[]>([]);
-    const [error, setError] = useState<Error | null>(null);
     const movieListRef = React.useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -39,7 +38,8 @@ export default function TopRated() {
                     JSON.stringify({ data: allMovies, timestamp: now })
                 );
             } catch (err) {
-                setError(err as Error);
+                console.error('Error fetching top-rated movies:', err);
+                setMovies([]);
             }
         };
 
@@ -63,6 +63,7 @@ export default function TopRated() {
 
     return (
         <section id='toprated-movies' className='listSection'>
+            <div className="scrollWrapper">
             <button className="handle left-handle" onClick={handleLeftClick}>
                 <div className="text text-5xl">&#8249;</div>
             </button>
@@ -78,6 +79,7 @@ export default function TopRated() {
             <button className="handle right-handle" onClick={handleRightClick}>
                 <div className="text text-5xl">&#8250;</div>
             </button>
+            </div>
         </section>
     );
 }

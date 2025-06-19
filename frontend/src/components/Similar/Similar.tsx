@@ -2,7 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { apiFetch } from '@/components/helpers/api';
 import { MoviesResponse, Movie } from '@/types/types';
-import { MovieCard } from '@/components/MovieCard/MovieCard';
+import styles from '@/styles/moviePage/moviePage.module.css';
+import Image from 'next/image';
+import Link from 'next/link';
 
 interface SimilarProps {
     movieId: number;
@@ -10,8 +12,6 @@ interface SimilarProps {
 
 export default function Similar({ movieId }: SimilarProps) {
     const [movies, setMovies] = useState<Movie[]>([]);
-    const [error, setError] = useState<Error | null>(null);
-    const movieListRef = React.useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const cacheKey = `similar-movies-${movieId}`;
@@ -43,45 +43,40 @@ export default function Similar({ movieId }: SimilarProps) {
                     JSON.stringify({ data: allMovies, timestamp: now })
                 );
             } catch (err) {
-                setError(err as Error);
+                console.error('Error fetching similar movies:', err);
+                setMovies([]);
             }
         };
 
         fetchMovies();
-    }, []);
-
-    const handleLeftClick = () => {
-        if (!movieListRef.current) return;
-        const currentIndex = parseInt(getComputedStyle(movieListRef.current).getPropertyValue('--slider-index'));
-        const newIndex = currentIndex > 0 ? currentIndex - 1 : 0;
-        movieListRef.current.style.setProperty('--slider-index', newIndex.toString());
-    }
-
-    const handleRightClick = () => {
-        if (!movieListRef.current) return;
-        const currentIndex = parseInt(getComputedStyle(movieListRef.current).getPropertyValue('--slider-index'));
-        const maxIndex = movies ? Math.floor(movies.length / 6) : 0;
-        const newIndex = currentIndex < maxIndex ? currentIndex + 1 : maxIndex;
-        movieListRef.current.style.setProperty('--slider-index', newIndex.toString());
-    }
+    }, [movieId]);
 
     return (
-        <section id={`${movieId}-movies`} className='listSection' style={{ overflow: 'hidden' }}>
-            <button className="handle left-handle" onClick={handleLeftClick}>
-                <div className="text text-5xl">&#8249;</div>
-            </button>
-            <div className='movieList' ref={movieListRef}>
-                {movies && movies.length > 0 ? (
-                    movies.map((movie: Movie) => (
-                        <MovieCard key={movie.id} movie={movie} />
-                    ))
-                ) : (
-                    <p>No movies available.</p>
-                )}
-            </div>
-            <button className="handle right-handle" onClick={handleRightClick}>
-                <div className="text text-5xl">&#8250;</div>
-            </button>
-        </section>
+        <div className="flex flex-nowrap gap-8 my-4 min-w-max">
+            {movies && movies.length > 0 ? (
+                movies.map((movie) => (
+                    <Link href={`/movie/${movie.id}`} key={movie.id} className={`flex flex-col items-center ${styles.castList} hover:scale-105 transition-transform duration-250`}>
+                        {movie.poster_path ? (
+                            <Image
+                                src={`${process.env.NEXT_PUBLIC_APP_TMDB_IMAGE_URL}${movie.poster_path}`}
+                                alt={movie.title}
+                                className="w-24 h-36 object-cover rounded-lg shadow-md"
+                                loading="lazy"
+                                width={96}
+                                height={144}
+                            />
+                        ) : (
+                            <div className="w-24 h-36 bg-gray-300 rounded-lg shadow-md flex items-center justify-center">
+                                <span className="text-gray-500">No Image</span>
+                            </div>
+                        )}
+                    </Link>
+                ))
+            ) : (
+                <div className="flex items-center justify-center h-full">
+                    <p className="text-gray-500">No similar movies found.</p>
+                </div>
+            )}
+        </div>
     );
 }

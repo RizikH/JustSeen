@@ -2,12 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import { apiFetch } from '@/components/helpers/api';
 import { MoviesResponse, Movie } from '@/types/types';
-import styles from '@/styles/Home/home.module.scss';
 import { MovieCard } from '@/components/MovieCard/MovieCard';
 
 export default function Upcoming() {
     const [movies, setMovies] = useState<Movie[]>([]);
-    const [error, setError] = useState<Error | null>(null);
     const movieListRef = React.useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -40,7 +38,8 @@ export default function Upcoming() {
                     JSON.stringify({ data: allMovies, timestamp: now })
                 );
             } catch (err) {
-                setError(err as Error);
+                console.error('Error fetching upcoming movies:', err);
+                setMovies([]);
             }
         };
 
@@ -64,21 +63,23 @@ export default function Upcoming() {
 
     return (
         <section id='upcoming-movies' className='listSection'>
-            <button className="handle left-handle" onClick={handleLeftClick}>
-                <div className="text text-5xl">&#8249;</div>
-            </button>
-            <div className='movieList' ref={movieListRef}>
-                {movies && movies.length > 0 ? (
-                    movies.map((movie: Movie) => (
-                        <MovieCard key={movie.id} movie={movie} />
-                    ))
-                ) : (
-                    <p>No movies available.</p>
-                )}
+            <div className="scrollWrapper">
+                <button className="handle left-handle" onClick={handleLeftClick}>
+                    <div className="text text-5xl">&#8249;</div>
+                </button>
+                <div className='movieList' ref={movieListRef}>
+                    {movies && movies.length > 0 ? (
+                        movies.map((movie: Movie) => (
+                            <MovieCard key={movie.id} movie={movie} />
+                        ))
+                    ) : (
+                        <p>No movies available.</p>
+                    )}
+                </div>
+                <button className="handle right-handle" onClick={handleRightClick}>
+                    <div className="text text-5xl">&#8250;</div>
+                </button>
             </div>
-            <button className="handle right-handle" onClick={handleRightClick}>
-                <div className="text text-5xl">&#8250;</div>
-            </button>
         </section>
     );
 }

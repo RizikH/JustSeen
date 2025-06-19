@@ -6,13 +6,11 @@ import TrailerPortal from "@/components/TrailerPortal/TrailerPortal";
 import { Suspense } from "react";
 import styles from "@/styles/moviePage/moviePage.module.css";
 import Similar from "@/components/Similar/Similar";
+import Image from "next/image";
 
-type MoviePageProps  = {
-    params: { id: string };
-};
-
-export default async function MoviePage({ params }: MoviePageProps ) {
-    const movieId = Number(params.id);
+export default async function MoviePage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
+    const movieId = Number(id);
     if (isNaN(movieId)) return notFound();
 
     try {
@@ -57,10 +55,13 @@ export default async function MoviePage({ params }: MoviePageProps ) {
                                 {/* Poster */}
                                 <div className={`flex-shrink-0 w-[20rem] overflow-hidden rounded-lg shadow-lg ${styles.moviePoster}`}>
                                     {movieRes.poster_path ? (
-                                        <img
+                                        <Image
                                             src={`${process.env.NEXT_PUBLIC_APP_TMDB_IMAGE_URL}${movieRes.poster_path}`}
                                             alt={movieRes.title}
-                                            loading="lazy"
+                                            width={500}
+                                            height={750}
+                                            className="w-full h-full object-cover rounded-lg shadow-md"
+                                            priority={false}
                                         />
                                     ) : (
                                         <div className="placeholderPoster  flex flex-col w-full h-full justify-center items-center">
@@ -108,17 +109,20 @@ export default async function MoviePage({ params }: MoviePageProps ) {
 
                     {/* Cast Section */}
                     <div className={`w-full flex flex-col items-start justify-start gap-6 px-8 lg:px-28 py-8 ${styles.castContainer}`}>
+                        <h2>Cast</h2>
                         <div className={`flex flex-col items-start justify-start w-full max-h-fit text-xl overflow-x-scroll  ${styles.castSection}`}>
-                            <h2>Cast</h2>
                             <div className="flex flex-nowrap gap-8 my-4 min-w-max">
                                 {cast && cast.length > 0 ? (
                                     cast.map((actor) => (
                                         <div key={actor.name} className={`flex flex-col items-center ${styles.castList}`}>
                                             {actor.profile_path ? (
-                                                <img
+                                                <Image
                                                     src={`https://image.tmdb.org/t/p/w500/${actor.profile_path}`}
                                                     alt={actor.name}
                                                     className="w-24 h-36 object-cover rounded-lg shadow-md"
+                                                    width={96}
+                                                    height={144}
+                                                    priority={false}
                                                 />
                                             ) : (
                                                 <div className="w-24 h-36 bg-gray-300 rounded-lg shadow-md flex items-center justify-center">
@@ -135,12 +139,12 @@ export default async function MoviePage({ params }: MoviePageProps ) {
 
                         </div>
                     </div>
-
-                    {/* Similar Movies Section */}
-                    <div className="px-28 mb-4 w-full">
-                        <div className="w-full flex flex-col items-start justify-center text-xl gap-4">
-                            <h2>Similar Movies</h2>
-                            <Similar movieId={movieId} />
+                    <div className={`w-full flex flex-col items-start justify-start gap-6 px-8 lg:px-28 py-8 ${styles.castContainer}`}>
+                        <h2>Similar Movies</h2>
+                        <div className={`flex flex-col items-start justify-start w-full max-h-fit text-xl overflow-x-scroll  ${styles.castSection}`}>
+                              <div className="flex flex-nowrap gap-8 my-4 min-w-max">
+                                <Similar movieId={movieId} />
+                            </div>
                         </div>
                     </div>
                 </div>

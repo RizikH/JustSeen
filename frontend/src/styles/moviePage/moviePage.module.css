@@ -1,6 +1,7 @@
 .castSection{
     scroll-behavior: smooth;
-    scrollbar-face-color: #2C2C2C;
+    scrollbar-width: thin;
+    scrollbar-color: #888 black;
 }
 
 @media screen and (max-width: 768px) {
