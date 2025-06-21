@@ -3,15 +3,15 @@ FROM gradle:8.5-jdk21 AS build
 
 WORKDIR /app
 
-# Set up Gradle build files
-COPY build.gradle settings.gradle ./
+# Copy Gradle wrapper scripts and config
+COPY gradlew .
 COPY gradle gradle
+COPY build.gradle settings.gradle ./
 
-# Copy gradlew script separately and ensure executable
-COPY gradlew ./gradlew
-RUN chmod +x ./gradlew
+# Ensure gradlew is executable
+RUN chmod +x gradlew
 
-# Now copy the rest of the project
+# Copy the rest of your source code
 COPY . .
 
 # Build the JAR
@@ -22,6 +22,7 @@ FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
 
+# Copy the built jar
 COPY --from=build /app/build/libs/*.jar app.jar
 
 EXPOSE 8080
