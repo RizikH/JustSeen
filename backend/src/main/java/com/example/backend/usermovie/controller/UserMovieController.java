@@ -47,7 +47,7 @@ public class UserMovieController {
     @GetMapping("/movie/{movieId}")
     public List<UserMovie> getUsersByMovie(@PathVariable int movieId) {
         return userMovieService.getUsersByMovie(movieId);
-    }
+    }   
 
     @DeleteMapping("/{id}")
     public void deleteUserMovie(@PathVariable Long id) {
