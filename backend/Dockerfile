@@ -6,7 +6,9 @@ WORKDIR /app
 # Copy only what's needed
 COPY gradle gradle
 COPY gradlew .
+RUN chmod +x gradlew
 COPY build.gradle settings.gradle ./
+COPY backend backend
 
 # Build the JAR
 RUN ./gradlew bootJar
