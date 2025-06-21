@@ -1,3 +1,5 @@
+import { UUID } from "crypto";
+
 export interface Movie {
     id: number;
     title: string;
@@ -33,4 +35,33 @@ export interface MoviesResponse {
     results: Movie[];
     total_pages: number;
     total_results: number;
+}
+
+export interface User {
+    id: UUID;
+    username: string;
+    email: string;
+}
+
+export interface UserMovie {
+    id: number;
+    user: {
+        id: UUID;
+        username: string;
+        email: string;
+    };
+    movie: {
+        id: number;
+        title: string;
+        poster_path: string;
+        backdrop_path: string;
+        overview: string;
+        release_date: string;
+        vote_average: number;
+        vote_count: number;
+    };
+    musicScore: number;
+    actingScore: number;
+    storyScore: number;
+    overallScore: number;
 }

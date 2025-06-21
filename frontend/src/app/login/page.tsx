@@ -2,10 +2,10 @@
 
 import React, { useEffect, Suspense } from "react";
 import LoginForm from "@/components/Auth/Login";
-import { useAuth } from "@/components/hooks/useAuth";
+import { useAuthStore } from "@/components/stores/AuthStore/useAuthStore";
 
 const LoginPage: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuthStore();
 
   useEffect(() => {
     if (isAuthenticated) {

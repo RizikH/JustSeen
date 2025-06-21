@@ -1,4 +1,3 @@
-// components/Auth/Login.tsx
 'use client';
 
 import React, { useState } from "react";
@@ -11,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { MagicCard } from "@/components/magicui/magic-card";
 import Link from "next/link";
+import { useAuthStore } from "@/components/stores/AuthStore/useAuthStore";
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -18,9 +18,13 @@ const LoginForm: React.FC = () => {
   const [status, setStatus] = useState("");
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect") || "/";
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const fetchUser = useAuthStore(state => state.fetchUser);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     const res = await fetch("http://localhost:8080/api/auth/login", {
       method: "POST",
@@ -29,12 +33,27 @@ const LoginForm: React.FC = () => {
       body: JSON.stringify({ email, password }),
     });
 
+    if (res.status === 403) {
+      setStatus("❌ Invalid credentials. Please try again.");
+      setIsSubmitting(false);
+      return;
+    }
+
     if (res.ok) {
-      window.location.href = redirect;
+      try {
+        await fetchUser();
+        window.location.href = redirect;
+      } catch (err) {
+        console.error("Failed to fetch user after login:", err);
+        setStatus("❌ Login succeeded, but failed to fetch user.");
+        setIsSubmitting(false);
+      }
     } else {
       setStatus("❌ Login failed.");
+      setIsSubmitting(false);
     }
   };
+
 
   return (
     <div className="min-h-(--page-height) w-screen flex items-center justify-center bg-black text-white">
@@ -73,8 +92,12 @@ const LoginForm: React.FC = () => {
               </div>
             </CardContent>
             <CardFooter className="p-4 border-t border-[#2a2a2a] pt-4">
-              <Button type="submit" className="w-full bg-white text-black hover:bg-gray-200 transition">
-                Sign In
+              <Button
+                type="submit"
+                className="w-full bg-white text-black hover:bg-gray-200 transition cursor-pointer"
+                disabled={isSubmitting || !email || !password}
+              >
+                {isSubmitting ? "Signing In..." : "Sign In"}
               </Button>
             </CardFooter>
           </form>

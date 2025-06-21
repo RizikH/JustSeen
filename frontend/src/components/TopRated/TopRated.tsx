@@ -29,12 +29,17 @@ export default function TopRated() {
                 );
 
                 const responses = await Promise.all(pageRequests);
-                const allMovies = responses.flatMap(res => res.results);
+                const allResults = responses.flatMap(res => res.results);
 
-                setMovies(allMovies);
+                const uniqueMovies = allResults.filter(
+                    (movie, index, self) =>
+                        index === self.findIndex((m) => m.id === movie.id)
+                );
+
+                setMovies(uniqueMovies);
                 sessionStorage.setItem(
                     cacheKey,
-                    JSON.stringify({ data: allMovies, timestamp: now })
+                    JSON.stringify({ data: uniqueMovies, timestamp: now })
                 );
             } catch (err) {
                 console.error('Error fetching top-rated movies:', err);
@@ -45,5 +50,5 @@ export default function TopRated() {
         fetchMovies();
     }, []);
 
-    return <MovieScroller movies={movies}/>
+    return <MovieScroller movies={movies} />;
 }

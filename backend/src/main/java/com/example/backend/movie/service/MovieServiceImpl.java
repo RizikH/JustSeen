@@ -27,8 +27,6 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie saveMovie(Movie movie) {
-        float avg = (movie.getMusic_score() + movie.getActing_score() + movie.getStory_score()) / 3f;
-        movie.setOverall_score(avg);
         return movieRepository.save(movie);
     }
 

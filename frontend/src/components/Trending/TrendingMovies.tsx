@@ -31,8 +31,17 @@ export default function Trending() {
                 const responses = await Promise.all(pageRequests);
                 const allMovies = responses.flatMap(res => res.results);
 
-                setMovies(allMovies);
-                sessionStorage.setItem(cacheKey, JSON.stringify({ data: allMovies, timestamp: now }));
+                const uniqueMovies = allMovies.filter(
+                    (movie, index, self) =>
+                        index === self.findIndex((m) => m.id === movie.id)
+                );
+
+                setMovies(uniqueMovies);
+                sessionStorage.setItem(
+                    cacheKey,
+                    JSON.stringify({ data: uniqueMovies, timestamp: now })
+                );
+
             } catch (err) {
                 console.error('Error fetching trending movies:', err);
                 setMovies([]);

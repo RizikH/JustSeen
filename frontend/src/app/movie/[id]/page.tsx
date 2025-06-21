@@ -7,7 +7,6 @@ import { Suspense } from "react";
 import styles from "@/styles/moviePage/moviePage.module.css";
 import Similar from "@/components/Similar/Similar";
 import Image from "next/image";
-import { Tagline } from "@/data/db";
 import AddToListButton from "@/components/AddToList/AddToListButton";
 
 export default async function MoviePage({ params }: { params: Promise<{ id: string }> }) {
@@ -107,7 +106,6 @@ export default async function MoviePage({ params }: { params: Promise<{ id: stri
                                     </div>
 
                                     <div>
-                                        <h2>{Tagline.tagline}</h2>
                                         <AddToListButton movie={movieRes} />
                                     </div>
                                 </div>

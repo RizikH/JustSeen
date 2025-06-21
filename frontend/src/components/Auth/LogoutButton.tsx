@@ -17,7 +17,7 @@ export default function LogoutButton() {
   return (
     <button
       onClick={handleLogout}
-      className="text-lg text-gray-300 hover:opacity-80 ml-2"
+      className="text-lg text-gray-300 hover:opacity-80 ml-2 cursor-pointer"
     >
       <IoIosLogOut className="inline-block mr-1" />
     </button>

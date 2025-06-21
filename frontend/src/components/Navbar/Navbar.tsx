@@ -2,20 +2,22 @@
 
 import Link from 'next/link';
 import { useIsMobile } from '../IsMobile/IsMobile';
-import { useAuth } from '@/components/hooks/useAuth';
+import { useAuthStore } from '@/components/stores/AuthStore/useAuthStore';
 import LogoutButton from '@/components/Auth/LogoutButton';
 import React, { useEffect, useState } from 'react';
 
 export default function Navbar() {
   const isMobile = useIsMobile();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated } = useAuthStore();
   const [redirectPath, setRedirectPath] = useState<string | null>(null);
+  const fetchUser = useAuthStore((state) => state.fetchUser);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setRedirectPath(window.location.pathname);
+      fetchUser();
     }
-  }, []);
+  }, [fetchUser]);
 
   return (
     <nav className="sticky top-0 left-0 w-full h-[4rem] bg-[#0C0C0C] text-white z-30 px-8 md:px-[4.5rem]">

@@ -1,11 +1,16 @@
 package com.example.backend.user.model;
 
+import java.util.Set;
 import java.util.UUID;
+
+import com.example.backend.usermovie.model.UserMovie;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,4 +29,8 @@ public class User {
     private String email;
     private String username;
     private String password;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private Set<UserMovie> userMovies;
 }

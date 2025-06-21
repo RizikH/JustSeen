@@ -37,11 +37,17 @@ export default function Similar({ movieId }: SimilarProps) {
                 const responses = await Promise.all(pageRequests);
                 const allMovies = responses.flatMap(res => res.results);
 
-                setMovies(allMovies);
+                const uniqueMovies = allMovies.filter(
+                    (movie, index, self) =>
+                        index === self.findIndex((m) => m.id === movie.id)
+                );
+
+                setMovies(uniqueMovies);
                 sessionStorage.setItem(
                     cacheKey,
-                    JSON.stringify({ data: allMovies, timestamp: now })
+                    JSON.stringify({ data: uniqueMovies, timestamp: now })
                 );
+
             } catch (err) {
                 console.error('Error fetching similar movies:', err);
                 setMovies([]);
