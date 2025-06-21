@@ -1,14 +1,25 @@
-# Use Java 21 base image
-FROM eclipse-temurin:21-jdk
+# ---- Build Stage ----
+FROM gradle:8.5-jdk21 AS build
 
 # Set working directory
 WORKDIR /app
 
-# Copy built jar (assumes you've already run `./gradlew build`)
-COPY build/libs/*.jar app.jar
+# Copy Gradle files first to leverage Docker cache
+COPY gradle gradle
+COPY build.gradle settings.gradle ./
+COPY backend backend
 
-# Expose the port used by Spring Boot
+# Build the JAR
+RUN cd backend && gradle bootJar
+
+# ---- Run Stage ----
+FROM eclipse-temurin:21-jdk
+
+WORKDIR /app
+
+# Copy the generated JAR from the build stage
+COPY --from=build /app/backend/build/libs/*.jar app.jar
+
 EXPOSE 8080
 
-# Run the jar file
 CMD ["java", "-jar", "app.jar"]
