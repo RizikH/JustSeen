@@ -1,27 +1,23 @@
 # ---- Build Stage ----
 FROM gradle:8.5-jdk21 AS build
 
-# Set working directory
 WORKDIR /app
 
-# Copy Gradle files first to leverage Docker cache
+# Copy only what's needed
 COPY gradle gradle
+COPY gradlew .
 COPY build.gradle settings.gradle ./
-COPY backend backend
 
 # Build the JAR
-RUN cd backend && ./gradlew bootJar
+RUN ./gradlew bootJar
 
 # ---- Run Stage ----
 FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
 
-# Copy the generated JAR from the build stage
-COPY --from=build /app/backend/build/libs/*.jar app.jar
-COPY backend/gradlew backend/gradlew
-COPY backend/gradle backend/gradle
-
+# Copy the built JAR from the previous stage
+COPY --from=build /app/build/libs/*.jar app.jar
 
 EXPOSE 8080
 
