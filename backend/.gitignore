@@ -2,6 +2,11 @@ HELP.md
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+
+/build/
+/.gradle/
+/gradle/
+
 ### STS ###
 .apt_generated
 .classpath

@@ -1,3 +1,9 @@
+/build/
+/gradle/
+/.gradle/
+/backend/build/
+/backend/gradle/
+
 # IDE junk
 backend/.idea/
 backend/.classpath
