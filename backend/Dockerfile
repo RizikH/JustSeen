@@ -3,13 +3,15 @@ FROM gradle:8.5-jdk21 AS build
 
 WORKDIR /app
 
-# Copy only what's needed first to leverage Docker cache
-COPY gradle gradle
-COPY gradlew .
+# Set up Gradle build files
 COPY build.gradle settings.gradle ./
-RUN chmod +x gradlew
+COPY gradle gradle
 
-# Now copy the rest of the source code
+# Copy gradlew script separately and ensure executable
+COPY gradlew ./gradlew
+RUN chmod +x ./gradlew
+
+# Now copy the rest of the project
 COPY . .
 
 # Build the JAR
@@ -20,7 +22,6 @@ FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
 
-# Copy the JAR file from the build stage
 COPY --from=build /app/build/libs/*.jar app.jar
 
 EXPOSE 8080

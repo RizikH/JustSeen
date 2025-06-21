@@ -1,28 +1,33 @@
+# === General Build & Gradle ===
 /build/
-/gradle/
 /.gradle/
+/gradle/
+.gradle/
 /backend/build/
 /backend/gradle/
 
-# IDE junk
-backend/.idea/
-backend/.classpath
-backend/.project
-backend/.settings
+# === Backend (Spring Boot / Java) ===
+/backend/.idea/
+/backend/.classpath
+/backend/.project
+/backend/.settings
+/backend/.env
+/backend/src/main/resources/application.properties
 
-# Node / Next.js
-frontend/node_modules/
-frontend/.next/
-frontend/.idea/
+# === Gradle Wrapper (keep only these)
+/backend/gradlew
+/backend/gradlew.bat
+!/backend/gradle/wrapper/**
 
-# OS junk
+# === Frontend (Next.js / Node) ===
+/frontend/node_modules/
+/frontend/.next/
+/frontend/.idea/
+/frontend/.env.local
+
+# === Docker ===
+/postgres_data/
+
+# === System junk ===
 .DS_Store
 Thumbs.db
-
-# Docker volumes
-postgres_data/
-
-# Environment files
-backend/.env
-frontend/.env.local
-backend/src/main/resources/application.properties
