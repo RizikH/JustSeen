@@ -4,7 +4,6 @@
 /gradle/
 .gradle/
 /backend/build/
-/backend/gradle/
 
 # === Backend (Spring Boot / Java) ===
 /backend/.idea/
@@ -12,7 +11,6 @@
 /backend/.project
 /backend/.settings
 /backend/.env
-/backend/src/main/resources/application.properties
 
 # === Gradle Wrapper (keep only these)
 /backend/gradlew
