@@ -18,7 +18,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   fetchUser: async () => {
     try {
-      const res = await fetch('http://localhost:8080/api/user/me', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/me`, {
         credentials: 'include',
       });
 
