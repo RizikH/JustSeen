@@ -35,9 +35,9 @@ public class AuthController {
     public ResponseEntity<String> logout(HttpServletResponse response) {
         Cookie cookie = new Cookie("jwt", null);
         cookie.setHttpOnly(true);
-        cookie.setSecure(true); // Set to true in production
+        cookie.setSecure(true);
         cookie.setPath("/");
-        cookie.setMaxAge(0); // Invalidate immediately
+        cookie.setMaxAge(0);
         response.addCookie(cookie);
         return ResponseEntity.ok("Logged out successfully.");
     }
@@ -45,7 +45,7 @@ public class AuthController {
     private Cookie createJwtCookie(String jwt) {
         Cookie cookie = new Cookie("jwt", jwt);
         cookie.setHttpOnly(true); // Prevents JS access
-        cookie.setSecure(false);  // Set to true in production (HTTPS)
+        cookie.setSecure(true);  // Set to true in production (HTTPS)
         cookie.setPath("/");
         cookie.setMaxAge(24 * 60 * 60); // 1 day
         return cookie;
