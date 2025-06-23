@@ -35,7 +35,7 @@ public class AuthController {
     public ResponseEntity<String> logout(HttpServletResponse response) {
         Cookie cookie = new Cookie("jwt", null);
         cookie.setHttpOnly(true);
-        cookie.setSecure(false); // Set to true in production
+        cookie.setSecure(true); // Set to true in production
         cookie.setPath("/");
         cookie.setMaxAge(0); // Invalidate immediately
         response.addCookie(cookie);
