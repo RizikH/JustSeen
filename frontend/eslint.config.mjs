@@ -19,7 +19,7 @@ const eslintConfig = [
           vars: "all",
           args: "after-used",
           ignoreRestSiblings: true,
-          caughtErrors: "none", // <- this disables unused `err` errors
+          caughtErrors: "none",
         },
       ],
     },
