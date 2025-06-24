@@ -39,15 +39,17 @@ public class AuthController {
         cookie.setPath("/");
         cookie.setMaxAge(0);
         response.addCookie(cookie);
+        cookie.setAttribute("SameSite", "None");
         return ResponseEntity.ok("Logged out successfully.");
     }
 
     private Cookie createJwtCookie(String jwt) {
         Cookie cookie = new Cookie("jwt", jwt);
         cookie.setHttpOnly(true); // Prevents JS access
-        cookie.setSecure(true);  // Set to true in production (HTTPS)
+        cookie.setSecure(true); // Set to true in production (HTTPS)
         cookie.setPath("/");
         cookie.setMaxAge(24 * 60 * 60); // 1 day
+        cookie.setAttribute("SameSite", "None");
         return cookie;
     }
 }
