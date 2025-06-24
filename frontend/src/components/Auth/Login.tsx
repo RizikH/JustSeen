@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { MagicCard } from "@/components/magicui/magic-card";
 import Link from "next/link";
 import { useAuthStore } from "@/components/stores/AuthStore/useAuthStore";
+import { useRouter } from "next/navigation";
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -19,8 +20,10 @@ const LoginForm: React.FC = () => {
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect") || "/";
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
 
   const fetchUser = useAuthStore(state => state.fetchUser);
+
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,7 +45,7 @@ const LoginForm: React.FC = () => {
     if (res.ok) {
       try {
         await fetchUser();
-        window.location.href = redirect;
+        router.push(redirect);
       } catch (err) {
         console.error("Failed to fetch user after login:");
         setStatus("❌ Login succeeded, but failed to fetch user.");

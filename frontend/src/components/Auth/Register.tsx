@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { MagicCard } from "@/components/magicui/magic-card";
 import { useAuthStore } from "@/components/stores/AuthStore/useAuthStore";
+import { useRouter } from "next/navigation";
 
 const RegisterForm: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -19,6 +20,7 @@ const RegisterForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect") || "/";
+  const router = useRouter();
 
   const fetchUser = useAuthStore((state) => state.fetchUser);
 
@@ -44,7 +46,7 @@ const RegisterForm: React.FC = () => {
       try {
         await fetchUser();
         setStatus("✅ Registered successfully! Redirecting...");
-        window.location.href = redirect;
+        router.push(redirect);
       } catch (err) {
         console.error("Failed to fetch user after registration:");
         setStatus("✅ Registered, but failed to sync auth state.");
