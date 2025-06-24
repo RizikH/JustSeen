@@ -17,16 +17,16 @@ Just Seen is a movie discovery platform built with Next.js, React, Tailwind CSS,
 ## Screenshots
 
 **Home Page (Desktop)**  
-![Home Desktop](./public/screenshots/home-desktop.png)
+![Home Desktop](./frontend/public/screenshots/justseen-preview.png)
 
 **Trailer Modal Preview**  
-![Modal](./public/screenshots/modal.png)
+![Modal](./frontend/public/screenshots/trailer.png)
 
 **Movie Details Page**  
-![Details](./public/screenshots/details.png)
+![Details](./frontend/public/screenshots/moviePage.png)
 
-**Mobile View**  
-![Mobile](./public/screenshots/mobile.png)
+**Cast and Similar Movies**  
+![Cast](./frontend/public/screenshots/castInfo.png)
 
 ## Tech Stack
 

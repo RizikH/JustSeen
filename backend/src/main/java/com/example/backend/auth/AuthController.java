@@ -32,16 +32,21 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(HttpServletResponse response) {
-        Cookie cookie = new Cookie("jwt", null);
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
-        cookie.setAttribute("SameSite", "None");
-        return ResponseEntity.ok("Logged out successfully.");
-    }
+public ResponseEntity<String> logout(HttpServletResponse response) {
+    Cookie cookie = new Cookie("jwt", null);
+    cookie.setHttpOnly(true);
+    cookie.setSecure(true);
+    cookie.setPath("/");
+    cookie.setMaxAge(0); // Immediately expire
+
+    // Set SameSite before adding to response
+    cookie.setAttribute("SameSite", "None");
+
+    response.addCookie(cookie);
+
+    return ResponseEntity.ok("Logged out successfully.");
+}
+
 
     private Cookie createJwtCookie(String jwt) {
         Cookie cookie = new Cookie("jwt", jwt);
