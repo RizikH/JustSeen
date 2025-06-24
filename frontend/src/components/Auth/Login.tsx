@@ -46,11 +46,11 @@ const LoginForm: React.FC = () => {
         setIsSubmitting(false);
       }
 
-    } catch (err: any) {
-      if (err.response?.status === 403) {
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err) && err.response?.status === 403) {
         setStatus("❌ Invalid credentials. Please try again.");
       } else {
-        console.error("Login request failed:");
+        console.error("Login request failed:", err);
         setStatus("❌ Login failed due to server error.");
       }
       setIsSubmitting(false);

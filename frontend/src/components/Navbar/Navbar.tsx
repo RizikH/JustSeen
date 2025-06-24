@@ -20,7 +20,7 @@ export default function Navbar() {
         fetchUser();
       }
     }
-  }, []);
+  }, [fetchUser]);
 
   console.log('Navbar rendered with user:', user);
   console.log('Navbar isAuthenticated:', isAuthenticated);
