@@ -77,7 +77,7 @@ export default function AddToListButton({ movie }: { movie: MovieDetails }) {
         });
 
         const userMovie = response.data;
-        console.log("UserMovie ID:", userMovie.id); // ✅ Here you have the ID!
+        console.log("UserMovie ID:", userMovie.id);
 
 
         if (lottieRef.current) {
