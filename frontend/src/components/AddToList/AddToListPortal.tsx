@@ -12,7 +12,6 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { Label } from "@/components/ui/label";
 import { MagicCard } from "@/components/magicui/magic-card";
 import { useAuthStore } from "@/components/stores/AuthStore/useAuthStore";
-import { useRouter } from "next/navigation";
 
 export default function RatingPortal({ movie, onClose }: { movie: MovieDetails; onClose: () => void }) {
   const [music, setMusic] = useState(0);
@@ -20,8 +19,7 @@ export default function RatingPortal({ movie, onClose }: { movie: MovieDetails; 
   const [story, setStory] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [showAbortConfirm, setShowAbortConfirm] = useState(false);
-  const { user, isAuthenticated, loading } = useAuthStore();
-  const router = useRouter();
+  const { user, isAuthenticated } = useAuthStore();
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
