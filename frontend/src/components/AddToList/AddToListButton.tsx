@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import RatingPortal from "./AddToListPortal";
 import { MovieDetails } from "@/types/types";
 import { useAuthStore } from "@/components/stores/AuthStore/useAuthStore";
-import { useIsMovieInList } from "@/components/hooks/useISInList";
 import Rating from '@mui/material/Rating';
 import axios from "axios";
 import { Button } from "@/components/ui/button";
@@ -16,10 +15,26 @@ export default function AddToListButton({ movie }: { movie: MovieDetails }) {
   const [open, setOpen] = useState(false);
   const [path, setPath] = useState("");
   const { user, isAuthenticated, loading } = useAuthStore();
-  const isInList = useIsMovieInList(user?.id, movie.id);
   const lottieRef = useRef<LottieRefCurrentProps>(null);
   const [showAnimation, setShowAnimation] = useState(false);
   const [userMovie, setUserMovie] = useState<UserMovie | null>(null);
+
+  useEffect(() => {
+    const fetchRatedMovie = async () => {
+      if (user?.id && movie?.id) {
+        try {
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/usermovies/user/${user.id}/movie/${movie.id}`, { withCredentials: true });
+          setUserMovie(response.data);
+        } catch (err) {
+          console.log("Movie not in list or fetch failed.");
+          setUserMovie(null);
+        }
+      }
+    };
+
+    fetchRatedMovie();
+  }, [user?.id, movie?.id]);
+
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -36,16 +51,6 @@ export default function AddToListButton({ movie }: { movie: MovieDetails }) {
       window.location.href = `/login?redirect=${encodeURIComponent(path)}`;
     }
   };
-
-  useEffect(() => {
-    const fetchRatedMovie = async () => {
-      if (isInList) {
-        const userMovie = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/usermovies/user/${user?.id}/movie/${movie.id}`, { withCredentials: true });
-        setUserMovie(userMovie.data);
-      }
-    };
-    fetchRatedMovie();
-  }, [isInList, user?.id, movie.id]);
 
   const handleAddToList = async () => {
     if (loading) return;
@@ -117,7 +122,7 @@ export default function AddToListButton({ movie }: { movie: MovieDetails }) {
     );
   }
 
-  if (!isInList) {
+  if (!userMovie || userMovie.overallScore === 0) {
     return (
       <div className="flex flex-col gap-4">
         <h2>Seen it?</h2>
