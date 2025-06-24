@@ -44,7 +44,7 @@ const LoginForm: React.FC = () => {
         await fetchUser();
         window.location.href = redirect;
       } catch (err) {
-        console.error("Failed to fetch user after login:", err);
+        console.error("Failed to fetch user after login:");
         setStatus("❌ Login succeeded, but failed to fetch user.");
         setIsSubmitting(false);
       }

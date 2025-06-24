@@ -42,7 +42,7 @@ export default function TopRated() {
                     JSON.stringify({ data: uniqueMovies, timestamp: now })
                 );
             } catch (err) {
-                console.error('Error fetching top-rated movies:', err);
+                console.error('Error fetching top-rated movies:');
                 setMovies([]);
             }
         };

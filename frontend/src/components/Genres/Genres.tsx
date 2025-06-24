@@ -50,7 +50,7 @@ export default function Genres(GenresProps: GenresProps) {
                 );
 
             } catch (err) {
-                console.error('Error fetching movies:', err);
+                console.error('Error fetching movies:');
                 setMovies([]);
             }
         };

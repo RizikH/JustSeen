@@ -95,7 +95,7 @@ export default function AddToListButton({ movie }: { movie: MovieDetails }) {
         }
 
       } catch (err) {
-        console.error("Failed to add movie:", err);
+        console.error("Failed to add movie to list");
       }
     } else {
       window.location.href = `/login?redirect=${encodeURIComponent(path)}`;

@@ -46,7 +46,7 @@ const RegisterForm: React.FC = () => {
         setStatus("✅ Registered successfully! Redirecting...");
         window.location.href = redirect;
       } catch (err) {
-        console.error("Failed to fetch user after registration:", err);
+        console.error("Failed to fetch user after registration:");
         setStatus("✅ Registered, but failed to sync auth state.");
         setIsSubmitting(false);
       }

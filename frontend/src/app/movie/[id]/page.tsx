@@ -159,7 +159,7 @@ export default async function MoviePage({ params }: { params: Promise<{ id: stri
             </>
         );
     } catch (err) {
-        console.error("Failed to fetch movie data", err);
+        console.error("Failed to fetch movie data");
         return notFound();
     }
 }

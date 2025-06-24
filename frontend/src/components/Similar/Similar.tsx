@@ -49,7 +49,7 @@ export default function Similar({ movieId }: SimilarProps) {
                 );
 
             } catch (err) {
-                console.error('Error fetching similar movies:', err);
+                console.error('Error fetching similar movies:');
                 setMovies([]);
             }
         };

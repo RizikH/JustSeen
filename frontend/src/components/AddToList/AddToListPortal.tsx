@@ -71,7 +71,7 @@ export default function RatingPortal({ movie, onClose }: { movie: MovieDetails; 
       onClose();
       window.location.reload();
     } catch (err) {
-      console.error("Error submitting rating", err);
+      console.error("Error submitting rating");
     } finally {
       setSubmitting(false);
     }

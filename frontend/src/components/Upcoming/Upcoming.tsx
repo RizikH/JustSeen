@@ -37,7 +37,7 @@ export default function Upcoming() {
                     JSON.stringify({ data: allMovies, timestamp: now })
                 );
             } catch (err) {
-                console.error('Error fetching upcoming movies:', err);
+                console.error('Error fetching upcoming movies:');
                 setMovies([]);
             }
         };

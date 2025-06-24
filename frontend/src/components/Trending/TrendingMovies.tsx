@@ -43,7 +43,7 @@ export default function Trending() {
                 );
 
             } catch (err) {
-                console.error('Error fetching trending movies:', err);
+                console.error('Error fetching trending movies:');
                 setMovies([]);
             }
         };
