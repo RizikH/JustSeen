@@ -22,20 +22,28 @@ export const useAuthStore = create<AuthState>((set) => ({
         credentials: 'include',
       });
 
-      if (!res.ok) {
-        throw new Error('Not authenticated');
+      if (res.status === 403) {
+        await new Promise((res) => setTimeout(res, 200));
+        const retryRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/me`, {
+          credentials: 'include',
+        });
+
+        if (!retryRes.ok) throw new Error('Still not authenticated');
+        const retryData = await retryRes.json();
+        set({ user: retryData, loading: false, isAuthenticated: true, error: null });
+        return;
       }
 
+      if (!res.ok) throw new Error('Not authenticated');
       const data = await res.json();
       set({ user: data, loading: false, isAuthenticated: true, error: null });
+
     } catch (err: unknown) {
-      if (err instanceof Error) {
-        set({ user: null, loading: false, isAuthenticated: false, error: err.message });
-      } else {
-        set({ user: null, loading: false, isAuthenticated: false, error: 'An unknown error occurred.' });
-      }
+      const message = err instanceof Error ? err.message : 'An unknown error occurred.';
+      set({ user: null, loading: false, isAuthenticated: false, error: message });
     }
   },
+
 
   logout: () => {
     set({ user: null, isAuthenticated: false, error: null });
