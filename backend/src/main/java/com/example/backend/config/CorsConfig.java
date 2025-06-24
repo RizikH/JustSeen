@@ -14,10 +14,9 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins(
-                                "http://localhost:3000", // for local dev
-                                "https://justseen.vercel.app" // for production
-                )
+                        .allowedOriginPatterns(
+                                "http://localhost:3000",
+                                "https://justseen.vercel.app")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
