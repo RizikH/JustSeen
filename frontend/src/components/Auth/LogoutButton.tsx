@@ -2,16 +2,19 @@
 
 import React from "react";
 import { IoIosLogOut } from "react-icons/io";
+import { useAuthStore } from "@/components/stores/AuthStore/useAuthStore"; // <-- import store
 
 export default function LogoutButton() {
+  const logout = useAuthStore((state) => state.logout); // <-- get logout action from store
+
   const handleLogout = async () => {
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
       method: "POST",
       credentials: "include",
     });
 
-    // Force reload to reset auth state
-    window.location.reload();
+    logout(); // <-- clear Zustand state
+    window.location.reload(); // Optionally reload page
   };
 
   return (

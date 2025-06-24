@@ -22,6 +22,9 @@ export default function Navbar() {
     }
   }, []);
 
+  console.log('Navbar rendered with user:', user);
+  console.log('Navbar isAuthenticated:', isAuthenticated);
+  console.log('Navbar loading:', loading);
 
   return (
     <nav className="sticky top-0 left-0 w-full h-[4rem] bg-[#0C0C0C] text-white z-30 px-8 md:px-[4.5rem]">
@@ -36,7 +39,7 @@ export default function Navbar() {
                 <li>
                   <span className="text-gray-400 cursor-not-allowed">Contact</span>
                 </li>
-                {loading ? null : isAuthenticated ? (
+                {isAuthenticated ? (
                   <div className="flex items-center gap-2 ml-20">
                     <Link href="#" className="hover:underline">
                       {user?.username || 'Profile'}

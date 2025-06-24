@@ -43,8 +43,6 @@ export default function AddToListButton({ movie }: { movie: MovieDetails }) {
   }, []);
 
   const handleClick = () => {
-    if (loading) return;
-
     if (isAuthenticated) {
       setOpen(true);
     } else {
@@ -112,7 +110,7 @@ export default function AddToListButton({ movie }: { movie: MovieDetails }) {
           precision={0.5}
           readOnly
         />
-        <Button onClick={handleClick} disabled={loading} className="w-fit cursor-pointer">
+        <Button onClick={handleClick} className="w-fit cursor-pointer">
           Edit Rating
         </Button>
         {open && isAuthenticated && (
@@ -122,7 +120,7 @@ export default function AddToListButton({ movie }: { movie: MovieDetails }) {
     );
   }
 
-  if (!userMovie || userMovie.overallScore === 0) {
+  if (!userMovie) {
     return (
       <div className="flex flex-col gap-4">
         <h2>Seen it?</h2>
