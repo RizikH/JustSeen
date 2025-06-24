@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from "react";
+import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,25 +25,18 @@ const LoginForm: React.FC = () => {
 
   const fetchUser = useAuthStore(state => state.fetchUser);
 
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setStatus("");
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+        { email, password },
+        { withCredentials: true }
+      );
 
-    if (res.status === 403) {
-      setStatus("❌ Invalid credentials. Please try again.");
-      setIsSubmitting(false);
-      return;
-    }
-
-    if (res.ok) {
       try {
         await fetchUser();
         router.push(redirect);
@@ -51,12 +45,17 @@ const LoginForm: React.FC = () => {
         setStatus("❌ Login succeeded, but failed to fetch user.");
         setIsSubmitting(false);
       }
-    } else {
-      setStatus("❌ Login failed.");
+
+    } catch (err: any) {
+      if (err.response?.status === 403) {
+        setStatus("❌ Invalid credentials. Please try again.");
+      } else {
+        console.error("Login request failed:");
+        setStatus("❌ Login failed due to server error.");
+      }
       setIsSubmitting(false);
     }
   };
-
 
   return (
     <div className="min-h-(--page-height) w-screen flex items-center justify-center bg-black text-white">
