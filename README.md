@@ -28,8 +28,6 @@ Just Seen is a movie discovery platform built with Next.js, React, Tailwind CSS,
 **Mobile View**  
 ![Mobile](./public/screenshots/mobile.png)
 
-> Screenshots should be placed in `public/screenshots/`. Filenames must match those above.
-
 ## Tech Stack
 
 - **Next.js** – React framework with SSR
