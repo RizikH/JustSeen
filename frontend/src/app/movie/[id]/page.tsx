@@ -9,6 +9,7 @@ import Similar from "@/components/Similar/Similar";
 import Image from "next/image";
 import AddToListButton from "@/components/AddToList/AddToListButton";
 
+
 export default async function MoviePage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
     const movieId = Number(id);
@@ -30,13 +31,14 @@ export default async function MoviePage({ params }: { params: Promise<{ id: stri
         const cast = castRes.cast.slice(0, 15);
 
 
+
         return (
             <>
                 <div
                     className='flex flex-col gap-6 w-full items-center justify-center overflow-hidden'
                 >
                     <div
-                        className={`w-full min-h-full flex flex-wrap md:flex-nowrap items-center justify-center gap-10 bg-black/75`}
+                        className={`relative w-full min-h-full flex flex-wrap md:flex-nowrap items-center justify-center gap-10 bg-black/75`}
                     >
                         {/* Movie Content */}
                         <div

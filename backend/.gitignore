@@ -38,3 +38,9 @@ out/
 
 # === Misc ===
 HELP.md
+# Ignore all log files
+*.log
+# Ignore all temporary files
+*.tmp
+# Ignore all backup files
+*~

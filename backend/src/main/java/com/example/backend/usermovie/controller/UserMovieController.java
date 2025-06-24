@@ -1,7 +1,6 @@
 package com.example.backend.usermovie.controller;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.backend.usermovie.dto.UserMovieDto;
+import com.example.backend.usermovie.mapper.UserMovieMapper;
 import com.example.backend.usermovie.model.UserMovie;
 import com.example.backend.usermovie.service.UserMovieService;
 
@@ -38,16 +39,16 @@ public class UserMovieController {
     }
 
     @GetMapping("/user/{userId}/movie/{movieId}")
-    public ResponseEntity<UserMovie> getUserMovie(@PathVariable UUID userId, @PathVariable int movieId) {
-        Optional<UserMovie> found = userMovieService.getUserMovie(userId, movieId);
-        return found.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.ok(null));
+    public ResponseEntity<UserMovieDto> getUserMovie(@PathVariable UUID userId, @PathVariable int movieId) {
+        return userMovieService.getUserMovie(userId, movieId)
+                .map(userMovie -> ResponseEntity.ok(UserMovieMapper.toDto(userMovie)))
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/movie/{movieId}")
     public List<UserMovie> getUsersByMovie(@PathVariable int movieId) {
         return userMovieService.getUsersByMovie(movieId);
-    }   
+    }
 
     @DeleteMapping("/{id}")
     public void deleteUserMovie(@PathVariable Long id) {

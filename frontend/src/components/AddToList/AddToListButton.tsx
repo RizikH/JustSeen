@@ -52,7 +52,7 @@ export default function AddToListButton({ movie }: { movie: MovieDetails }) {
 
     if (isAuthenticated && user) {
       try {
-        await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/usermovies`, {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/usermovies`, {
           user: { id: user.id },
           movie: {
             id: movie.id,
@@ -71,6 +71,10 @@ export default function AddToListButton({ movie }: { movie: MovieDetails }) {
           withCredentials: true
         });
 
+        const userMovie = response.data;
+        console.log("UserMovie ID:", userMovie.id); // ✅ Here you have the ID!
+
+
         if (lottieRef.current) {
           setShowAnimation(true);
           lottieRef.current.play();
@@ -84,6 +88,7 @@ export default function AddToListButton({ movie }: { movie: MovieDetails }) {
         } else {
           window.location.reload();
         }
+
       } catch (err) {
         console.error("Failed to add movie:", err);
       }
@@ -91,6 +96,7 @@ export default function AddToListButton({ movie }: { movie: MovieDetails }) {
       window.location.href = `/login?redirect=${encodeURIComponent(path)}`;
     }
   };
+
 
   if (userMovie && userMovie.overallScore > 0) {
     return (

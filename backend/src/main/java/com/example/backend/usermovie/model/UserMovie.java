@@ -13,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,6 +23,7 @@ import lombok.NoArgsConstructor;
 })
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class UserMovie {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
@@ -41,13 +43,4 @@ public class UserMovie {
     private float actingScore;
     private float storyScore;
     private float overallScore;
-
-    public UserMovie(User user, Movie movie, float musicScore, float actingScore, float storyScore) {
-        this.user = user;
-        this.movie = movie;
-        this.musicScore = musicScore;
-        this.actingScore = actingScore;
-        this.storyScore = storyScore;
-    }
-
 }
